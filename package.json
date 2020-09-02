@@ -1,6 +1,6 @@
 {
     "name": "Example Extension",
     "packageName": "example-extension",
-    "entryFile": "index.js",
+    "main": "index.js",
     "hooks": ["ui/page/on-page-open"]
 }

@@ -26,8 +26,10 @@ onmessage = (msg) => {
             postMessage(["actions", {
                 actionName: "actions/ui/notification/show", 
                 arguments: {
-                    content: '[:div "There is a WikiData entry for this page: '+entity.label+' ('+entity.description+')" [:br] [:a {:href "'+entity.concepturi+'"} "Go to WikiData"]]', 
-                    "parse-ui-injection": true,
+                    content: {
+                        string: '[:div "There is a WikiData entry for this page: '+entity.label+' ('+entity.description+')" [:br] [:a {:href "'+entity.concepturi+'"} "Go to WikiData"]]',
+                        type: "hiccup"
+                    }, 
                     status: "success"
                 }
             }])
