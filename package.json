@@ -2,5 +2,15 @@
     "name": "Example Extension",
     "packageName": "example-extension",
     "main": "index.js",
-    "hooks": ["ui/page/on-page-open"]
+    "hooks": [
+        "events/ui/view/on-page-open",
+        "events/ui/view/on-block-context-menu-clicked"
+    ],
+    "injections": [
+        {
+            "location": "injections/ui/view/block-context-menu",
+            "name": "Add Wikipedia definition of this page to this block",
+            "id": "add-wikipedia-defn"
+        }
+    ]
 }
