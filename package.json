@@ -11,6 +11,17 @@
             "location": "injections/ui/view/block-context-menu",
             "name": "Add Wikipedia definition of this page to this block",
             "id": "add-wikipedia-defn"
+        },
+        {
+            "location": "injections/iframe/sidebar",
+            "label": "Calculator",
+            "iframe": "calculator"
+        }
+    ],
+    "iframes": [
+        {
+            "src": "calculator.html",
+            "id": "calculator"
         }
     ]
 }

@@ -1,0 +1,46 @@
+<!-- source: https://gist.github.com/mdolon/10854b1140ea72a7f83ebec6b67f73dc-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Basic Example with JSX</title>
+    <style>
+      body {
+        text-align: center;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Basic Example with JSX</h1>
+
+    <div id="container"></div>
+
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+    <script type="text/babel">
+      const ExampleApplication = React.createClass({
+        
+
+        render: function() {
+          const elapsed = Math.round(this.props.elapsed  / 100);
+          const seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
+          const message = 'React has been successfully running for ' + seconds + ' seconds.';
+
+          return <p>{message}</p>;
+        }
+      });
+
+      const start = new Date().getTime();
+
+      setInterval(function() {
+        ReactDOM.render(
+          <ExampleApplication />,
+          document.getElementById('container')
+        );
+      }, 50);
+    </script>
+
+  </body>
+</html>
