@@ -48,3 +48,9 @@ logseq.events.addEventListener("events/ui/view/on-block-context-menu-clicked", a
     console.log(intro)
     logseq.actions.ui.overwriteBlockContent(context.id, intro)
 })
+
+/* Here's how to get current block:
+setInterval(async () => {
+    let id = await logseq.actions.get.currentBlock();
+    console.log(id)
+}, 4000) */
