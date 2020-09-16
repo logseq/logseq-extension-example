@@ -34,7 +34,8 @@
           const message = 'React has been successfully running for ' + seconds + ' seconds.';
 
           return <div>
-            <p>{message} <button onClick={() => {
+            <p>{message}</p>
+            <button onClick={() => {
               port.postMessage(["actions", {
                 actionName: "actions/ui/notification/show", 
                 arguments: {
@@ -42,7 +43,7 @@
                     status: "success"
                 }
             }])
-            }}> Send message to main </button></p>
+            }}> Send message to main </button>
             <p> {port ? "Message port started!" : ""}</p>
           </div>;
         }

@@ -32,33 +32,25 @@ const getWikipediaIntro = async (name) => {
 
 var pageName = "";
 
-onmessage = (msg) => {
-    const channel = msg.data[0];
-    const message = msg.data[1];
-    if (channel === "events" && message["eventName"] === "events/ui/view/on-page-open") {
-        console.log("Page opened: " + message.context.entity.name);
-        pageName = message.context.entity.name;
-        findWikidataEntry(message.context.entity.name).then(entity => {
-            postMessage(["actions", {
-                actionName: "actions/ui/notification/show", 
-                arguments: {
-                    content: {
-                        string: '[:div "There is a WikiData entry for this page: '+entity.label+' ('+entity.description+')" [:br] [:a {:href "'+entity.concepturi+'"} "Go to WikiData"]]',
-                        type: "hiccup"
-                    }, 
-                    status: "success"
-                }
-            }])
-        })
-    }
-    if (channel === "events" && message["eventName"] === "events/ui/view/on-block-context-menu-clicked") {
-        console.log(pageName)
-        getWikipediaIntro(pageName).then(intro => {console.log(intro); postMessage(["actions", {
-            actionName: "actions/ui/block/overwrite-block-content", 
-            arguments: {
-                content: intro,
-                id: message.context.id
-            }
-        }])})
-    }
-}
+logseq.events.addEventListener("events/ui/view/on-page-open", (context) => {
+    console.log("Page opened: " + context.entity.name);
+    pageName = context.entity.name;
+    findWikidataEntry(context.entity.name).then(entity => {
+        let content = {
+            string: '[:div "There is a WikiData entry for this page: '+entity.label+' ('+entity.description+')" [:br] [:a {:href "'+entity.concepturi+'"} "Go to WikiData"]]',
+            type: "hiccup"
+        }
+        logseq.actions.ui.showNotification(content, "success")
+    })
+})
+
+logseq.events.addEventListener("events/ui/view/on-block-context-menu-clicked", (context) => {
+    console.log(pageName)
+    getWikipediaIntro(pageName).then(intro => {console.log(intro); postMessage(["actions", {
+        actionName: "actions/ui/block/overwrite-block-content", 
+        arguments: {
+            content: intro,
+            id: context.id
+        }
+    }])})
+})
