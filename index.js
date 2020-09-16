@@ -32,25 +32,19 @@ const getWikipediaIntro = async (name) => {
 
 var pageName = "";
 
-logseq.events.addEventListener("events/ui/view/on-page-open", (context) => {
+logseq.events.addEventListener("events/ui/view/on-page-open", async (context) => {
     console.log("Page opened: " + context.entity.name);
     pageName = context.entity.name;
-    findWikidataEntry(context.entity.name).then(entity => {
-        let content = {
-            string: '[:div "There is a WikiData entry for this page: '+entity.label+' ('+entity.description+')" [:br] [:a {:href "'+entity.concepturi+'"} "Go to WikiData"]]',
-            type: "hiccup"
-        }
-        logseq.actions.ui.showNotification(content, "success")
-    })
+    let entity = await findWikidataEntry(context.entity.name)
+    let content = {
+        string: '[:div "There is a WikiData entry for this page: '+entity.label+' ('+entity.description+')" [:br] [:a {:href "'+entity.concepturi+'"} "Go to WikiData"]]',
+        type: "hiccup"
+    }
+    logseq.actions.ui.showNotification(content, "success")
 })
 
-logseq.events.addEventListener("events/ui/view/on-block-context-menu-clicked", (context) => {
-    console.log(pageName)
-    getWikipediaIntro(pageName).then(intro => {console.log(intro); postMessage(["actions", {
-        actionName: "actions/ui/block/overwrite-block-content", 
-        arguments: {
-            content: intro,
-            id: context.id
-        }
-    }])})
+logseq.events.addEventListener("events/ui/view/on-block-context-menu-clicked", async (context) => {
+    let intro = await getWikipediaIntro(pageName)
+    console.log(intro)
+    logseq.actions.ui.overwriteBlockContent(context.id, intro)
 })
