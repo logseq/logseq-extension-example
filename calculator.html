@@ -1,17 +1,19 @@
 <!-- source: https://gist.github.com/mdolon/10854b1140ea72a7f83ebec6b67f73dc-->
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Basic Example with JSX</title>
     <style>
-      body {
-        text-align: center;
-        font-size: 12px;
-      }
+        body {
+            text-align: center;
+            font-size: 12px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <h1>Basic Example with JSX</h1>
 
     <div id="container"></div>
@@ -20,44 +22,20 @@
     <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
     <script type="text/babel">
-      let port = null;
-      window.addEventListener('message', onMessage);
-  
-      function onMessage(e) {
-        port = e.ports[0]
-      }
-
-      const ExampleApplication = React.createClass({
-        render: function() {
-          const elapsed = Math.round(this.props.elapsed  / 100);
-          const seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' );
-          const message = 'React has been successfully running for ' + seconds + ' seconds.';
-
-          return <div>
+        const ExampleApplication = React.createClass({ render: function() { 
+          const elapsed = Math.round(this.props.elapsed / 100); 
+          const seconds = elapsed / 10 + (elapsed % 10 ? '' : '.0' ); 
+          const message = 'React has been successfully running for ' + seconds + ' seconds.'; 
+          return(<div>
             <p>{message}</p>
-            <button onClick={() => {
-              port.postMessage(["actions", {
-                actionName: "actions/ui/notification/show", 
-                arguments: {
-                    content: "Hello from the other side!", 
-                    status: "success"
-                }
-            }])
+            <button onClick={()=> {
+              logseq.actions.ui.showNotification("Hello from the other side!", "success");
             }}> Send message to main </button>
-            <p> {port ? "Message port started!" : ""}</p>
-          </div>;
-        }
-      });
-
-      const start = new Date().getTime();
-
-      setInterval(function() {
-        ReactDOM.render(
-          <ExampleApplication elapsed={new Date().getTime() - start} />,
-          document.getElementById('container')
-        );
-      }, 50);
+            <p> {post ? "Message port started!" : ""}</p>
+        </div>); } }); const start = new Date().getTime(); setInterval(function() { ReactDOM.render(
+        <ExampleApplication elapsed={new Date().getTime() - start} />, document.getElementById('container') ); }, 50);
     </script>
 
-  </body>
+</body>
+
 </html>
